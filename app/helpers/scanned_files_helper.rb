@@ -1,0 +1,2 @@
+module ScannedFilesHelper
+end
