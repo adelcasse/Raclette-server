@@ -1,7 +1,7 @@
 class ScannedFile
   include Mongoid::Document
   
-  field :hash
+  field :filehash
   field :name
   field :size, :type => Integer
   field :directory
