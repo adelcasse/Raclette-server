@@ -10,5 +10,5 @@ class Host
   field :created_at, :type => DateTime
   field :updated_at, :type => DateTime
   
-  embedded_in :scanned_file, :inverse_of => :host
+  embedded_in :single_file, :inverse_of => :host
 end
