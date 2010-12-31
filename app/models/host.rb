@@ -1,7 +1,7 @@
 class Host
   include Mongoid::Document
   
-  field :name
+  field :hostname
   field :protocol
   field :protocol_login
   field :protocol_password

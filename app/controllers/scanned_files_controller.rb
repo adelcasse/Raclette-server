@@ -18,8 +18,12 @@ class ScannedFilesController < ApplicationController
     #TODO: Implement hosts de pending on the final schema chosed
     scanned_file = params[:scanned_file]
     single_file = scanned_file[:single_files][0]
+    host = params[:host]
 
     @scanned_file = ScannedFile.new(scanned_file)
+    @host = Host.find_or_initialize_by(:hostname => host[:hostname])
+    @host.protocol = host[:protocol] if not host[:protocol].nil?
+    @host.save
 
     @existing_file = ScannedFile.where("single_files.file_name" => single_file[:file_name]).and("single_files.directory" => single_file[:directory]).first
     if @existing_file.nil?
@@ -27,12 +31,16 @@ class ScannedFilesController < ApplicationController
       @new_file = ScannedFile.find_or_initialize_by(:filehash => scanned_file[:filehash])
       @new_file.merge_with @scanned_file
       @new_file.single_files.create single_file
+      @new_file.single_files[0].host = @host
       @new_file.save
       respond_with @new_file
     else
       # This file is already in the database
-      @existing_file.merge_with @scanned_file
-      @existing_file.save
+      if @existing_file.filehash == scanned_file[:file_hash]
+        @existing_file.merge_with @scanned_file
+        @existing_file.save
+      else
+      end
       respond_with @existing_file
     end
   end
