@@ -8,7 +8,7 @@ class SingleFile
   field :mtime, :type => DateTime
   field :last_seen, :type => DateTime
 
-  embeds_one :host
+  references_one :host # MongoDB collections with only a few objects may safely exist as separate collections, as the whole collection is quickly cached in application server memory
 
   embedded_in :scanned_file, :inverse_of => :single_file
 end
