@@ -3,13 +3,13 @@ class ScannedFilesController < ApplicationController
   respond_to :json, :xml
 
   def index
-    @scanned_files = ScannedFile.all
+    @scanned_files = ScannedFile.all.find
     respond_with @scanned_files.to_a
   end
 
   def show
-    @scanned_file = ScannedFile.criteria.id(params[:id])
-    respond_with @scanned_file.to_a
+    @scanned_file = ScannedFile.criteria.id(params[:id]).find.first
+    respond_with @scanned_file
   end
 
 
@@ -41,6 +41,16 @@ class ScannedFilesController < ApplicationController
 	respond_with @new_file
       end
     end
+  end
+
+  def update
+    @update_file = ScannedFile.criteria.id(params[:id]).find.first
+    merge_file = ScannedFile.new(params[:scanned_file])
+
+    @update_file.forced_merge_with merge_file
+
+    @update_file.save
+    respond_with @update_file
   end
 
 
